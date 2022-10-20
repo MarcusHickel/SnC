@@ -33,8 +33,19 @@ J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','
 J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
 J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
 
+% Calcuate Lengths of the blue lines
+a = Corners(1,1)-Corners(2,1);
+b = Corners(1,2)-Corners(2,2);
+c = sqrt(a^2+b^2);
+
+a2 = Corners(3,1)-Corners(4,1);
+b2 = Corners(3,2)-Corners(4,2);
+c2 = sqrt(a2^2+b2^2);
+
+diff = c - c2;
+
 imshow(J);
-title(sprintf('Detected a %d x %d Checkerboard',boardSize));
+title(sprintf('BlueLineDiff %4.2f',diff));
 %figure(1);
 roi = [TopLeft abs(BottomRight-TopLeft)];
 
