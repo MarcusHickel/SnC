@@ -1,4 +1,4 @@
-function [TopLeft,BottomRight] = BoxFind(image)
+function [roi] = BoxFind(image)
 %Find the bounding box of a checker board pattern
 %   outputs the topleft and bottom right coordinates of the boudning box
 % Marcus
@@ -25,4 +25,5 @@ title(sprintf('Detected a %d x %d Checkerboard',boardSize));
 %figure(1);
 
 rectangle('Position',[TopLeft abs(BottomRight-TopLeft)])
+roi = [TopLeft abs(BottomRight-TopLeft)];
 end
