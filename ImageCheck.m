@@ -1,12 +1,12 @@
 clear all
 close all
 
-for i = 1:15
+for i = 1:6
     figure(i)
-    imageName = strcat('Color', num2str(i), '.jpg');
+    imageName = strcat('rot', num2str(i), '.jpg');
     try
-    BoxFind(imageName)
+        BoxFind(imageName);
     catch
-    fprintf('Failed on number %d \n', i)
+        fprintf('Failed on number %d \n', i)
     end
 end
