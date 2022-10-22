@@ -25,11 +25,17 @@ J = insertMarker(J,BottomRight,'plus','Color','cyan','Size',10);
 
 J = insertMarker(J,BottomLeft,'plus','Color','green','Size',10);
 
+% Add ROI Rectangle
 J = insertShape(J,'rectangle',[TopLeft abs(BottomRight-TopLeft)],'LineWidth',2,'Color','black');
 
+% Adding 1234 Markers for each corner
+J = insertText(I,Corners,1:size(Corners,1));
+
+% Add Blue Lines
 J = insertShape(J,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
 J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
 
+% Add Red Lines
 J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
 J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
 
@@ -42,10 +48,21 @@ a2 = Corners(3,1)-Corners(4,1);
 b2 = Corners(3,2)-Corners(4,2);
 c2 = sqrt(a2^2+b2^2);
 
-diff = c - c2;
+Bluediff = c - c2;
+
+% Calcuate Lengths of the red lines
+a = Corners(1,1)-Corners(3,1);
+b = Corners(1,2)-Corners(3,2);
+c = sqrt(a^2+b^2);
+
+a2 = Corners(2,1)-Corners(4,1);
+b2 = Corners(2,2)-Corners(4,2);
+c2 = sqrt(a2^2+b2^2);
+
+Reddiff = c - c2;
 
 imshow(J);
-title(sprintf('BlueLineDiff %4.2f',diff));
+title(sprintf('BlueDiff %4.2f RedDiff %4.2f',Bluediff, Reddiff));
 %figure(1);
 roi = [TopLeft abs(BottomRight-TopLeft)];
 
