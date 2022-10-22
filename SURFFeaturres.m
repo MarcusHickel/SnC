@@ -1,6 +1,6 @@
 % Q3
-Image1 = 'Testimages/Color1.jpg';
-Image2 = 'Testimages/Color4.jpg';
+Image1 = 'Testimages/ASY1.jpg';
+Image2 = 'Testimages/ASY5.jpg';
 
 I1gs = rgb2gray (imread(Image1));
 I2gs = rgb2gray (imread(Image2));
@@ -11,8 +11,8 @@ ROI2 = BoxFind(Image2);
 original = rgb2gray (imread(Image1));
 distorted = rgb2gray (imread(Image2));
 
-ptsOriginal = detectORBFeatures(original,'ROI',ROI1);
-ptsDistorted = detectORBFeatures(distorted,'ROI',ROI2);
+ptsOriginal = detectSURFFeatures(original,'ROI',ROI1);
+ptsDistorted = detectSURFFeatures(distorted,'ROI',ROI2);
 
 [featuresOriginal, validPtsOriginal] = extractFeatures(original,ptsOriginal);
 [featuresDistorted, validPtsDistorted] = extractFeatures(distorted,ptsDistorted);
