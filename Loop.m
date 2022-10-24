@@ -9,13 +9,14 @@ sub = rossubscriber('/usb_cam/image_raw');
 [pub,msg] = rospublisher('/usb_cam/image_raw')
 
 [scanDataBL,~,~] = receive(sub,100);
-Baseline = scanData.readImage;
+Baseline = scanDataBL.readImage;
 
 while true
     
     [scanData,~,~] = receive(sub,100);
-
+    
     imageName = scanData.readImage;
+    imshow(imageName);
     try % Try and catch will continue even if any function fails
     tic; %Timer Start    
     [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
@@ -34,6 +35,7 @@ while true
     imshow(J);
     title(sprintf('BlueDiff %4.2f RedDiff %4.2f Rotation %4.2f Time %4.2f' ,Bluediff, Reddiff, thetaRecovered, time));
     catch
-    fprintf('Failed')
+    fprintf('Failed\n')
+
     end
 end
