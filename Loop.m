@@ -19,9 +19,19 @@ while true
     imshow(imageName);
     try % Try and catch will continue even if any function fails
     tic; %Timer Start    
-    [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
-    [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName);
+        try
+            [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
+        catch
+            fprintf('Failed on BoxFind')
+        end
+        try
+            [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName);
+        catch
+            fprintf('Failed on RotationDetect')
+        end
+    
     time = toc; %Timer Stop
+
     I = imread(imageName);
 
     % Add Blue Lines
