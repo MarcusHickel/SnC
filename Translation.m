@@ -1,4 +1,4 @@
-function [translationVector] = Translation(refrenceImage,image,showFigure)
+function [translationVector, refMidpoint, imgMidpoint] = Translation(refrenceImage,image,showFigure)
 %Calculates the translation vector of two images
 %Marcus
 
