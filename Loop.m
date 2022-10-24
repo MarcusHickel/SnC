@@ -48,10 +48,14 @@ while true
         % Add Red Lines
         J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
         J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
-    
+        
+        % Add translation Vector
+        J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
+        J = insertMarker(J,refMidpoint,"circle");
+        
         imshow(J);
-        title(sprintf('BlueDiff %4.2f RedDiff %4.2f Rotation %4.2f translation vector: X:%4.2f Y:%4.2f Time %4.2f' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
-        fprintf('Processed in %4.2f Seconds\n',time)
+        title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
+        fprintf('Processed image in %4.2f Seconds\n',time)
     catch
         fprintf('Failed\n')
 
