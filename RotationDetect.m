@@ -1,5 +1,5 @@
-function [thetaRecovered, scaleRecovered] = RotationDetect(Image)
-Image1 = 'Testimages/ROTE1.jpg';
+function [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, Image)
+Image1 = Baseline;
 Image2 = Image;
 
 ROI1 = BoxFind(Image1,0);
