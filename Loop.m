@@ -18,7 +18,7 @@ while true
     imageName = scanData.readImage;
     imshow(imageName);
     try % Try and catch will continue even if any function fails
-    tic; %Timer Start    
+        tic; %Timer Start    
         try
             [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
         catch
@@ -29,21 +29,27 @@ while true
         catch
             fprintf('Failed on RotationDetect')
         end
+        try
+            [translationVector] = Translation(Baseline,imageName,0);
+        catch
+            fprintf('Failed on translationVector')
+        end
+
+        time = toc; %Timer Stop
     
-    time = toc; %Timer Stop
-
-    I = imread(imageName);
-
-    % Add Blue Lines
-    J = insertShape(I,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
-    J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
+        I = imread(imageName);
     
-    % Add Red Lines
-    J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
-    J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
-
-    imshow(J);
-    title(sprintf('BlueDiff %4.2f RedDiff %4.2f Rotation %4.2f Time %4.2f' ,Bluediff, Reddiff, thetaRecovered, time));
+        % Add Blue Lines
+        J = insertShape(I,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
+        J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
+        
+        % Add Red Lines
+        J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
+        J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
+    
+        imshow(J);
+        title(sprintf('BlueDiff %4.2f RedDiff %4.2f Rotation %4.2f translation vector: X:%4.2f Y:%4.2f Time %4.2f' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
+        fprintf('Processed in %4.2f Seconds\n',time)
     catch
     fprintf('Failed\n')
 
