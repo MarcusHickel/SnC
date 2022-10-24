@@ -53,7 +53,7 @@ while true
         title(sprintf('BlueDiff %4.2f RedDiff %4.2f Rotation %4.2f translation vector: X:%4.2f Y:%4.2f Time %4.2f' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
         fprintf('Processed in %4.2f Seconds\n',time)
     catch
-    fprintf('Failed\n')
+        fprintf('Failed\n')
 
     end
 end

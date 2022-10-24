@@ -2,6 +2,7 @@ function [translationVector] = Translation(refrenceImage,image,showFigure)
 %Calculates the translation vector of two images
 %Marcus
 
+
 % Get Baseline Corners
 [~, refrenceCorners, ~, ~] = BoxFind(refrenceImage,0);
 
