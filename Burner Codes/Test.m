@@ -1,7 +1,11 @@
 %% Question 1
 clear all
 close all
-% rosinit
+try 
+    rosinit
+catch
+    fprintf('Already Running')
+end
 sub = rossubscriber('/usb_cam/image_raw');
 [pub,msg] = rospublisher('/usb_cam/image_raw')
 
@@ -20,8 +24,9 @@ indexPairs = matchFeatures(featuresOriginal,featuresDistorted);
 matchedOriginal = validPtsOriginal(indexPairs(:,1));
 matchedDistorted = validPtsDistorted(indexPairs(:,2));
 
-figure;
+figure(1);
 showMatchedFeatures(original,distorted,matchedOriginal,matchedDistorted,'montage');
+hold on;
 
 imshow(scanData.readImage);
 imshow(scanData2.readImage);
@@ -32,4 +37,4 @@ imshow(scanData2.readImage);
 %msg = sub.LatestMessage.Data;
 % img = rosReadImage(msg);    
 % imshow(msg);
-% rosshutdown
+rosshutdown

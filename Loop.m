@@ -6,17 +6,19 @@ catch
 end
 
 sub = rossubscriber('/usb_cam/image_raw');
-[pub,msg] = rospublisher('/usb_cam/image_raw')
+% [pub,msg] = rospublisher('/usb_cam/image_raw')
 
 [scanDataBL,~,~] = receive(sub,100);
-Baseline = scanDataBL.readImage;
+imwrite(scanDataBL.readImage,'BBaby.jpg');
+Baseline = 'BBaby.jpg';
 
 while true
     
     [scanData,~,~] = receive(sub,100);
     
-    imageName = scanData.readImage;
-    imshow(imageName);
+    imwrite(scanData.readImage,'FailBaby.jpg');
+
+    imageName='FailBaby.jpg';
     try % Try and catch will continue even if any function fails
         tic; %Timer Start    
         try
@@ -27,7 +29,7 @@ while true
         try
             [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName);
         catch
-            fprintf('Failed on RotationDetect')
+            fprintf('Failed on RotationDetect\n')
         end
         try
             [translationVector] = Translation(Baseline,imageName,0);
