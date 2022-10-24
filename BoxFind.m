@@ -6,8 +6,13 @@ function [roi, Corners, Reddiff, Bluediff] = BoxFind(image, showFigures)
 %Find the bounding box of a checker board pattern
 %   outputs the topleft and bottom right coordinates of the boudning box
 % Marcus
-I = imread(image);% Detect the checkerboard points.
+try
+    I = imread(image);
+catch
+    error("Error reading image")
+end
 
+% Detect the checkerboard points.
 [imagePoints,boardSize] = detectCheckerboardPoints(I);
 
 Points = [1; boardSize(1,1)-1; length(imagePoints)-(boardSize(1,1)-2); length(imagePoints)];
