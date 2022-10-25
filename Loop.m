@@ -1,24 +1,28 @@
-
+%Initiates ROS Bridge if not
 try 
     rosinit;
 catch
     fprintf('ROS is running')
 end
 
+%ROS Subscriber to USB Cam Node
 sub = rossubscriber('/usb_cam/image_raw');
-% [pub,msg] = rospublisher('/usb_cam/image_raw')
 
+%Base Image Received
 [scanDataBL,~,~] = receive(sub,100);
-imwrite(scanDataBL.readImage,'BBaby.jpg');
-Baseline = 'BBaby.jpg';
+imwrite(scanDataBL.readImage,'Baseline.jpg');
+Baseline = 'Baseline.jpg';
 
 while true
     
+    %Second Image Received
     [scanData,~,~] = receive(sub,100);
     
-    imwrite(scanData.readImage,'FailBaby.jpg');
+    imwrite(scanData.readImage,'Shifted.jpg');
 
-    imageName='FailBaby.jpg';
+    imageName='Shifted.jpg';
+
+    %Image Comparison, Compares Shifted.jpg to Baseline.jpg
     try % Try and catch will continue even if any function fails
         tic; %Timer Start    
         try
@@ -53,19 +57,17 @@ while true
         J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
         J = insertMarker(J,refMidpoint,"circle");
         
-        
+        %Show Live USB_CAM Feed
         figure(1);
-        h(1) = subplot(1,2,1);
         imshow(J);
         title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
         fprintf('Processed image in %4.2f Seconds\n',time)
-        
-        figure(2);
-        h(2) = subplot(1,2,2);
-       % imshow('BBaby.jpg');
-        ShowTheWay(thetaRecovered);
+
+
+        %Show Rotation Required 
+        ShowTheWay(Bluediff, Reddiff);
 
     catch
         fprintf('Failed\n')
-    end
+    end 
 end

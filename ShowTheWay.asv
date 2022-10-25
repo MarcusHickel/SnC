@@ -1,0 +1,21 @@
+function [RotateME] = ShowTheWay(blue,red)
+
+figure(2);
+sgtitle('PIVOT!');
+%Horizontal Rotation Arrow Shown
+plot(red,blue,'o');
+hold on;
+pyline(0),xline(0)
+grid on;
+hold off;
+end
+
+%Vertical Rotation Arrow Shown
+% subplot(1,2,2);
+% if red>0
+%     imshow("BackRotate.jpg");
+% else
+%     imshow("ForwardRotate.jpg");
+% end
+% 
+% end
