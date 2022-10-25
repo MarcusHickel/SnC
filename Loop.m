@@ -37,7 +37,7 @@ while true
         try
             tic
             [roi1, imageCorners, Reddiff, Bluediff]= BoxFind(imageName,0);
-            [roi2, refrenceCorners, Reddiff, Bluediff]= BoxFind(Baseline,0);
+            [roi2, refrenceCorners, ~, ~]= BoxFind(Baseline,0);
             Boxfindtime = toc;
         catch
             fprintf('Failed on BoxFind')
