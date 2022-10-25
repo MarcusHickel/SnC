@@ -16,7 +16,9 @@ sub = rossubscriber('/usb_cam/image_raw');
 imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
+figure(1);
 pl = Line(0,0);
+axis([-480 480 -480 480]);
 
 while true
     tic;
@@ -79,16 +81,15 @@ while true
         pl.XData = [0 ,translationVector(1)];
         pl.YData = [0, translationVector(2)];
         
-        %line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red')
+        %line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red')T
         
         dispTime = toc;
       
         tic;
-
         %Show Rotation Required 
         ShowTheWay(Bluediff, Reddiff);
-        
         ShowTime = toc;
+
         fprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
         fprintf('Box %4.2f, Rote %4.2f, Trans %4.2f',Boxfindtime, Rotetime, transtime)
         fprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
