@@ -90,7 +90,7 @@ while true
       
         tic;
         %Show Rotation Required 
-        ShowTheWay(Bluediff, Reddiff);
+        ShowTheWay(Bluediff, Reddiff, thetaRecovered);
         ShowTime = toc;
 
         fprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
