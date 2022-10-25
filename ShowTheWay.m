@@ -2,7 +2,7 @@ function [RotateME] = ShowTheWay(blue,red,theta)
 
 figure(2);
 sgtitle('PIVOT!');
-%Horizontal Rotation Arrow Shown
+% Plots the Horizontal and Vertical Rotation
 subplot(1,2,1);
 if (blue>40.5)
     blue=40;
@@ -23,7 +23,7 @@ axis([-40 40 -40 40]);
 grid on;
 
 
-%Vertical Rotation Arrow Shown
+% Displays the "Perpendicular" Rotation
 subplot(1,2,2);
 polarplot([0 theta]*pi/180, [0; 1]*50);
 end

@@ -1,21 +1,22 @@
-%Initiates ROS Bridge if not
 clear all
 close all
 
+% Initiates ROS Bridge if not
 try 
     rosinit;
 catch
     fprintf('ROS is running')
 end
 
-%ROS Subscriber to USB Cam Node
+% ROS Subscriber to USB Cam Node
 sub = rossubscriber('/usb_cam/image_raw');
 
-%Base Image Received
+% Base Image Received
 [scanDataBL,~,~] = receive(sub,100);
 imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
+% Figure 1 Set Up for Translation Vector
 figure(1);
 title('Translation Vector'); 
 pl = line(0,0);
@@ -29,17 +30,17 @@ while true
     tic;
     %Second Image Received
     [scanData,~,~] = receive(sub,100);
-    
-    imwrite(scanData.readImage,'Shifted.jpg');
-
+    imwrite(scanData.readImage,'Shifted.jpg')
     imageName='Shifted.jpg';
-    scanTime = toc ;
-    %Image Comparison, Compares Shifted.jpg to Baseline.jpg
+
+    scanTime = toc ; % Time's Will Be Seen Throughout for Optimisation
+
+    % Image Comparison, Compares Shifted.jpg to Baseline.jpg
     try % Try and catch will continue even if any function fails
          %Timer Start    
         try
             tic
-            [roi1, imageCorners, Reddiff, Bluediff]= BoxFind(imageName,0);
+            [roi1, imageCorners, Reddiff, Bluediff]= BoxFind(imageName,0); % Finds Box of Interest Compared to Baseline Image
             [roi2, refrenceCorners, ~, ~]= BoxFind(Baseline,0);
             Boxfindtime = toc;
         catch
@@ -47,14 +48,14 @@ while true
         end
         try
             tic
-            [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName, roi1, roi2);
+            [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName, roi1, roi2); % Finds Angle of Roation in Degrees
             Rotetime = toc;
         catch
             fprintf('Failed on RotationDetect\n')
         end
         try
             tic
-            [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,refrenceCorners,imageCorners,0);
+            [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,refrenceCorners,imageCorners,0); % Finds Translation Vector
             transtime = toc;
         catch
             fprintf('Failed on translationVector')
@@ -63,36 +64,16 @@ while true
         calcTime = Boxfindtime + Rotetime + transtime; %Timer Stop
         
         tic;
-%         I = imread(imageName);
-%     
-%         % Add Blue Lines
-%         J = insertShape(I,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
-%         J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
-%         
-%         % Add Red Lines
-%         J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
-%         J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
-%         
-%         % Add translation Vector
-%         J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
-%         J = insertMarker(J,refMidpoint,"circle");
-        
-        
-        %Show Live USB_CAM Feed
-        %figure(1);
-        %imshow(J);
-        %title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, calcTime));
-        
-        figure(1);
+
+        figure(1); % Show Translation Vector from Origin
         pl.XData = [0 ,translationVector(1)];
         pl.YData = [0, translationVector(2)];
-        
-        %line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red')T
-        
+                
         dispTime = toc;
       
         tic;
-        %Show Rotation Required 
+
+        % Show Rotation Required 
         ShowTheWay(Bluediff, Reddiff, thetaRecovered);
         ShowTime = toc;
 

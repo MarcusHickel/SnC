@@ -17,12 +17,9 @@ imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
 figure(1);
-title('Translation Vector'); 
 pl = line(0,0);
 xline(0);
 yline(0);
-ylabel('Vertical Translation');
-xlabel('Horizontal Translation');
 axis([-240 240 -240 240]);
 
 while true
@@ -96,7 +93,7 @@ while true
         ShowTheWay(Bluediff, Reddiff, thetaRecovered);
         ShowTime = toc;
 
-        fprintf('BlueDiff %v4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
+        fprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
         fprintf('Box %4.2f, Rote %4.2f, Trans %4.2f',Boxfindtime, Rotetime, transtime)
         fprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
     catch
