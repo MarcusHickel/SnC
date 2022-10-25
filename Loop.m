@@ -17,8 +17,10 @@ imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
 figure(1);
-pl = Line(0,0);
-axis([-480 480 -480 480]);
+pl = line(0,0);
+xline(0);
+yline(0);
+axis([-240 240 -240 240]);
 
 while true
     tic;
