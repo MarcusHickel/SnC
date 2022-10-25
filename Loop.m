@@ -16,6 +16,8 @@ sub = rossubscriber('/usb_cam/image_raw');
 imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
+pl = Line(0,0);
+
 while true
     tic;
     %Second Image Received
@@ -74,8 +76,10 @@ while true
         %title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, calcTime));
         
         figure(1);
-        line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red');
+        pl.XData = [0 ,translationVector(1)];
+        pl.YData = [0, translationVector(2)];
         
+        %line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red')
         
         dispTime = toc;
       
@@ -85,9 +89,9 @@ while true
         ShowTheWay(Bluediff, Reddiff);
         
         ShowTime = toc;
-        sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
-        sprintf('Box %4.2f, Rote %4.2f, Trans %4.2f',Boxfindtime, Rotetime, transtime)
-        sprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
+        fprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
+        fprintf('Box %4.2f, Rote %4.2f, Trans %4.2f',Boxfindtime, Rotetime, transtime)
+        fprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
     catch
         fprintf('Failed\n')
     end 
