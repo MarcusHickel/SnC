@@ -1,10 +1,10 @@
-function [translationVector, refMidpoint, imgMidpoint] = Translation(refrenceImage,image,showFigure)
+function [translationVector, refMidpoint, imgMidpoint] = Translation(refrenceImage,image, refrenceCorners, imageCorners, showFigure)
 %Calculates the translation vector of two images
 %Marcus
 
 
 % Get Baseline Corners
-[~, refrenceCorners, ~, ~] = BoxFind(refrenceImage,0);
+%[~, refrenceCorners, ~, ~] = BoxFind(refrenceImage,0);
 
 % Avg Baseline Corners
 refMidpoint(1) = sum(refrenceCorners(:,1))/4;
@@ -13,7 +13,7 @@ refMidpoint(2) = sum(refrenceCorners(:,2))/4;
 
 
 % Get Current image Corners
-[~, imageCorners, ~, ~] = BoxFind(image,0);
+%[~, imageCorners, ~, ~] = BoxFind(image,0);
 
 % Avg current image Corners
 imgMidpoint(1) = sum(imageCorners(:,1))/4;

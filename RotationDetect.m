@@ -1,9 +1,9 @@
-function [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, Image)
+function [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, Image, ROI1, ROI2)
 Image1 = Baseline;
 Image2 = Image;
 
-ROI1 = BoxFind(Image1,0);
-ROI2 = BoxFind(Image2,0);
+% ROI1 = BoxFind(Image1,0);
+% ROI2 = BoxFind(Image2,0);
 
 original = rgb2gray (imread(Image1));
 distorted = rgb2gray (imread(Image2));

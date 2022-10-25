@@ -36,21 +36,22 @@ while true
          %Timer Start    
         try
             tic
-            [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
+            [roi1, imageCorners, Reddiff, Bluediff]= BoxFind(imageName,0);
+            [roi2, refrenceCorners, Reddiff, Bluediff]= BoxFind(Baseline,0);
             Boxfindtime = toc;
         catch
             fprintf('Failed on BoxFind')
         end
         try
             tic
-            [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName);
+            [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName, roi1, roi2);
             Rotetime = toc;
         catch
             fprintf('Failed on RotationDetect\n')
         end
         try
             tic
-            [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,0);
+            [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,refrenceCorners,imageCorners,0);
             transtime = toc;
         catch
             fprintf('Failed on translationVector')
