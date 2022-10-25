@@ -14,14 +14,14 @@ imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
 while true
-    
+    tic;
     %Second Image Received
     [scanData,~,~] = receive(sub,100);
     
     imwrite(scanData.readImage,'Shifted.jpg');
 
     imageName='Shifted.jpg';
-
+    scanTime = toc ;
     %Image Comparison, Compares Shifted.jpg to Baseline.jpg
     try % Try and catch will continue even if any function fails
         tic; %Timer Start    
@@ -36,13 +36,14 @@ while true
             fprintf('Failed on RotationDetect\n')
         end
         try
-[translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,0);
+            [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,0);
         catch
             fprintf('Failed on translationVector')
         end
 
-        time = toc; %Timer Stop
-    
+        calcTime = toc; %Timer Stop
+        
+        tic;
         I = imread(imageName);
     
         % Add Blue Lines
@@ -57,16 +58,21 @@ while true
         J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
         J = insertMarker(J,refMidpoint,"circle");
         
+
         %Show Live USB_CAM Feed
         figure(1);
         imshow(J);
-        title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
-        fprintf('Processed image in %4.2f Seconds\n',time)
-
+        title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, calcTime));
+        dispTime = toc;
+      
+        tic;
 
         %Show Rotation Required 
         ShowTheWay(Bluediff, Reddiff);
+        
+        ShowTime = toc;
 
+        fprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
     catch
         fprintf('Failed\n')
     end 
