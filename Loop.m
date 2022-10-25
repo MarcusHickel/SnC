@@ -1,4 +1,7 @@
 %Initiates ROS Bridge if not
+clear all
+close all
+
 try 
     rosinit;
 catch
@@ -26,17 +29,23 @@ while true
     try % Try and catch will continue even if any function fails
         tic; %Timer Start    
         try
+            tic
             [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
+            Boxfindtime = toc;
         catch
             fprintf('Failed on BoxFind')
         end
         try
+            tic
             [thetaRecovered, scaleRecovered] = RotationDetect(Baseline, imageName);
+            Rotetime = toc;
         catch
             fprintf('Failed on RotationDetect\n')
         end
         try
+            tic
             [translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,0);
+            transtime = toc;
         catch
             fprintf('Failed on translationVector')
         end
@@ -44,25 +53,30 @@ while true
         calcTime = toc; %Timer Stop
         
         tic;
-        I = imread(imageName);
-    
-        % Add Blue Lines
-        J = insertShape(I,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
-        J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
+%         I = imread(imageName);
+%     
+%         % Add Blue Lines
+%         J = insertShape(I,'Line',[[Corners(1,:)] [Corners(2,:)]],'LineWidth',2,'Color','blue');
+%         J = insertShape(J,'Line',[[Corners(3,:)] [Corners(4,:)]],'LineWidth',2,'Color','blue');
+%         
+%         % Add Red Lines
+%         J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
+%         J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
+%         
+%         % Add translation Vector
+%         J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
+%         J = insertMarker(J,refMidpoint,"circle");
         
-        % Add Red Lines
-        J = insertShape(J,'Line',[[Corners(1,:)] [Corners(3,:)]],'LineWidth',2,'Color','red');
-        J = insertShape(J,'Line',[[Corners(2,:)] [Corners(4,:)]],'LineWidth',2,'Color','red');
         
-        % Add translation Vector
-        J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
-        J = insertMarker(J,refMidpoint,"circle");
-        
-
         %Show Live USB_CAM Feed
+        %figure(1);
+        %imshow(J);
+        %title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, calcTime));
+        
         figure(1);
-        imshow(J);
-        title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, calcTime));
+        line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red');
+        
+        
         dispTime = toc;
       
         tic;
@@ -71,8 +85,9 @@ while true
         ShowTheWay(Bluediff, Reddiff);
         
         ShowTime = toc;
-
-        fprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
+        sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)
+        sprintf('Box %4.2f, Rote %4.2f, Trans %4.2f',Boxfindtime, Rotetime, transtime)
+        sprintf('Scan time %4.2fs. Display Time %4.2fs. Calc Time %4.2fs ShowDeWay %4.2fs. Total %4.2f\n',scanTime, dispTime, calcTime, ShowTime, (scanTime+dispTime+calcTime+ShowTime))
     catch
         fprintf('Failed\n')
     end 
