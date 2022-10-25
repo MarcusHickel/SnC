@@ -32,7 +32,7 @@ while true
             fprintf('Failed on RotationDetect\n')
         end
         try
-            [translationVector] = Translation(Baseline,imageName,0);
+[translationVector, refMidpoint, imgMidpoint] = Translation(Baseline,imageName,0);
         catch
             fprintf('Failed on translationVector')
         end
@@ -53,11 +53,19 @@ while true
         J = insertShape(J,'Line',[refMidpoint, (refMidpoint-translationVector)],'LineWidth',2,'Color','magenta');
         J = insertMarker(J,refMidpoint,"circle");
         
+        
+        figure(1);
+        h(1) = subplot(1,2,1);
         imshow(J);
         title(sprintf('BlueDiff %4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \nTime %4.2fs' ,Bluediff, Reddiff, thetaRecovered, translationVector, time));
         fprintf('Processed image in %4.2f Seconds\n',time)
+        
+        figure(2);
+        h(2) = subplot(1,2,2);
+       % imshow('BBaby.jpg');
+        ShowTheWay(thetaRecovered);
+
     catch
         fprintf('Failed\n')
-
     end
 end
