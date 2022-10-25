@@ -3,19 +3,23 @@ function [RotateME] = ShowTheWay(blue,red)
 figure(2);
 sgtitle('PIVOT!');
 %Horizontal Rotation Arrow Shown
-plot(red,blue,'o');
+
+if (blue>40.5)
+    blue=40;
+    
+elseif (red>40.5)
+    red=40;
+elseif (blue<-40.5)
+    blue = -40;
+elseif (red<-40.5)
+    red = -40;
+end
+plot(blue,red,'o');
 yline(0);
 xline(0);
-if (blue>80) || (red>80) || (blue<-80) || (red<-80)
-    axis([-100 100 -100 100]);
-elseif (blue>60) || (red>60) || (blue<-60) || (red<-60)
-    axis([-80 80 -80 80])
-elseif (blue>40) || (red>40) || (blue<-40) || (red<-40)
-    axis([-60 60 -60 60]);
-else
-    axis([-40 40 -40 40]);
-end
-
+ylabel('Vertical Rotation');
+xlabel('Horizontal Rotation');
+axis([-40 40 -40 40]);
 grid on;
 end
 

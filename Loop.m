@@ -27,7 +27,7 @@ while true
     scanTime = toc ;
     %Image Comparison, Compares Shifted.jpg to Baseline.jpg
     try % Try and catch will continue even if any function fails
-        tic; %Timer Start    
+         %Timer Start    
         try
             tic
             [roi, Corners, Reddiff, Bluediff]= BoxFind(imageName,0);
@@ -50,7 +50,7 @@ while true
             fprintf('Failed on translationVector')
         end
 
-        calcTime = toc; %Timer Stop
+        calcTime = Boxfindtime + Rotetime + transtime; %Timer Stop
         
         tic;
 %         I = imread(imageName);

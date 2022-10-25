@@ -4,10 +4,19 @@ figure(2);
 sgtitle('PIVOT!');
 %Horizontal Rotation Arrow Shown
 plot(red,blue,'o');
-hold on;
-pyline(0),xline(0)
+yline(0);
+xline(0);
+if (blue>40) || (red>40) || (blue<-40) || (red<-80)
+    axis([-100 100 -100 100]);
+elseif (blue>60) || (red>60) || (blue<-60) || (red<-60)
+    axis([-80 80 -80 80])
+elseif (blue>40) || (red>40) || (blue<-40) || (red<-40)
+    axis([-60 60 -60 60]);
+else
+    axis([-40 40 -40 40]);
+end
+
 grid on;
-hold off;
 end
 
 %Vertical Rotation Arrow Shown
