@@ -21,9 +21,11 @@ ylabel('Vertical Rotation');
 xlabel('Horizontal Rotation');
 axis([-40 40 -40 40]);
 grid on;
+title('X-Y Axis of Rotation');
 
 
 % Displays the "Perpendicular" Rotation
 subplot(2,2,4);
 polarplot([0 theta]*pi/180, [0; 1]*50);
+title('Z Axis of Rotation');
 end

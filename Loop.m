@@ -25,6 +25,7 @@ yline(0);
 ylabel('Vertical Translation');
 xlabel('Horizontal Translation');
 axis([-240 240 -240 240]);
+title('Translation Vector');
 
 while true
     tic;
