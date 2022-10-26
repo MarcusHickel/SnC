@@ -11,7 +11,7 @@ try
 catch
     error("Error reading image")
 end
-
+  
 % Detect the checkerboard points.
 [imagePoints,boardSize] = detectCheckerboardPoints(I);
 
