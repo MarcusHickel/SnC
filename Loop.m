@@ -17,7 +17,8 @@ imwrite(scanDataBL.readImage,'Baseline.jpg');
 Baseline = 'Baseline.jpg';
 
 figure(1);
-title('Translation Vector'); 
+sgtitle('Camera Vectors'); 
+subplot(2,2,3);
 pl = line(0,0);
 xline(0);
 yline(0);
@@ -85,7 +86,7 @@ while true
         
         figure(1);
         pl.XData = [0 ,translationVector(1)];
-        pl.YData = [0, translationVector(2)];
+        pl.YData = [0 , -translationVector(2)];
         
         %line([0 ,translationVector(1)], [0, translationVector(2)],'Color','red')T
         
@@ -93,7 +94,7 @@ while true
       
         tic;
         %Show Rotation Required 
-        ShowTheWay(Bluediff, Reddiff, thetaRecovered);
+        ShowTheWay(-Bluediff, Reddiff, thetaRecovered);
         ShowTime = toc;
 
         fprintf('BlueDiff %v4.2f RedDiff %4.2f \nRotation %4.2f \nTranslation vector: X:%4.2f Y:%4.2f \n' ,Bluediff, Reddiff, thetaRecovered, translationVector)

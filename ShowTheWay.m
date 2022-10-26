@@ -1,9 +1,9 @@
 function [RotateME] = ShowTheWay(blue,red,theta)
 
-figure(2);
-sgtitle('PIVOT!');
-% Plots the Horizontal and Vertical Rotation
-subplot(1,2,1);
+figure(1);
+% sgtitle('PIVOT!');
+% Shows the Horizontal and Vertical Rotation
+subplot(2,2,1);
 if (blue>40.5)
     blue=40;
     
@@ -24,6 +24,6 @@ grid on;
 
 
 % Displays the "Perpendicular" Rotation
-subplot(1,2,2);
+subplot(2,2,4);
 polarplot([0 theta]*pi/180, [0; 1]*50);
 end

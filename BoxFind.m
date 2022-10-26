@@ -4,7 +4,7 @@ function [roi, Corners, Reddiff, Bluediff] = BoxFind(image, showFigures)
         showFigures {mustBeNumericOrLogical}
     end
 %Find the bounding box of a checker board pattern
-%   outputs the topleft and bottom right coordinates of the boudning box
+%   outputs the topleft and bottom right coordinates of the bounding box
 % Marcus
 try
     I = imread(image);
